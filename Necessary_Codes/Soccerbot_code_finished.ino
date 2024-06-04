@@ -46,7 +46,7 @@ int ch2_left_end = 2000;
 
 //Throttle ranges
 int throttle_start = 1040;
-int throttle_end = 1980;
+int throttle_end = 1985;
 
 void setup(){
   Serial.begin(115200);
@@ -95,7 +95,6 @@ digitalWrite(L2_IS, HIGH);
 
 //speed mapping
 int MaxSpeed = map(THROTTLE, throttle_start, throttle_end, 0, 255);
-
 int spd_fwd = map(CH2, fwd_start, fwd_end, 0, MaxSpeed); //FWD 
 int spd_bac = map(CH2, bac_start, bac_end, 0, MaxSpeed); //BAC
 int ch1_spd_right = map(CH1, ch1_right_start, ch1_right_end, 0, MaxSpeed); //RIGHT ch1
@@ -106,19 +105,19 @@ int ch2_spd_left = map(CH2, ch2_left_start, ch2_left_end, 0, MaxSpeed); //LEFT c
 
 
 Serial.print(MaxSpeed);
-Serial.print(",MaxSpeed ");
+Serial.print(",max ");
 Serial.print(spd_fwd);
-Serial.print(",spd_fwd ");
+Serial.print(",fwd ");
 Serial.print(spd_bac);
-Serial.print(",spd_bac ");
+Serial.print(",bac ");
 Serial.print(ch1_spd_right);
-Serial.print(",ch1_spd_right ");
+Serial.print(",ch1_right ");
 Serial.print(ch2_spd_right);
-Serial.print(",ch2_spd_right ");
+Serial.print(",ch2_right ");
 Serial.print(ch1_spd_left);
 Serial.print(",ch1_spd_left ");
 Serial.print(ch2_spd_left);
-Serial.println(",ch2_spd_left ");
+Serial.println(",ch2_left ");
 
 
 
@@ -140,9 +139,7 @@ analogWrite(R_bac, 0);
 
 
 //RIGHT
-else if((CH1>ch1_right_start)&&(CH2<ch2_right_start)){ 
-ch1_spd_right = abs(ch1_spd_right);
-ch2_spd_right = abs(ch2_spd_right);
+else if((CH1>ch1_right_start)&&(CH2<ch2_right_start)){
 
 analogWrite(L_fwd, ch1_spd_right);
 analogWrite(L_bac, 0);
@@ -152,9 +149,7 @@ analogWrite(R_bac, ch2_spd_right);
 
 
 //LEFT
-else if((CH1<ch1_left_start)&&(CH2>ch2_left_start)){  
-ch1_spd_left = abs(ch1_spd_left);
-ch2_spd_left = abs(ch2_spd_left); 
+else if((CH1<ch1_left_start)&&(CH2>ch2_left_start)){ 
  
 analogWrite(L_fwd, 0);
 analogWrite(L_bac, ch1_spd_left);
@@ -165,7 +160,7 @@ analogWrite(R_bac, 0);
 
 //BACKWARD
 else if(CH1<bac_start) // here channel 1 and 2 has same reading
-{  
+{
 analogWrite(L_fwd, 0);
 analogWrite(L_bac, spd_bac);
 analogWrite(R_fwd, 0);
